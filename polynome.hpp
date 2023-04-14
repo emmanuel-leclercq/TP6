@@ -1,18 +1,22 @@
-
+#include <iostream>
 
 template <typename T>
-bool is_zero(T a)
-{
-	return a == 0
-}
-bool is_zero(double a) { return a == 0; }
+class Polynome;
+
+template <typename T>
+std::ostream &operator<<(ostream &os, const Polynome<T> &p);
+
+template <typename T>
+bool is_zero(T a){
+	return a == 0};
+bool is_zero(double a) { return a == 0; };
 
 template <typename T>
 bool is_one(T a)
 {
 	return a == 1;
-}
-bool is_one(double a) { return a == 1; }
+};
+bool is_one(double a) { return a == 1; };
 
 template <typename T>
 bool is_one(complex<T>)
@@ -23,46 +27,50 @@ bool is_one(complex<T>)
 template <typename T>
 class Polynome
 {
-	private:
-		int n;
-		T* coeff;
+private:
+	int n;
+	T *coeff;
 
-	public:
-		Polynome(int n, T* coeff);
-		Polynome(const Polynome& p);
-		~Polynome(): n(0), coeff(nullptr) {};
+public:
+	Polynome() : n(0), coeff(nullptr){};
+	Polynome(const T &a, int m) : n(m), coeff(new T[1]) { coeff[0] = a; };
+	Polynome(vector<T> v) : n(v.size()), coeff(new T[n])
+	{
+		for (int i = 0; i < n; i++)
+			coeff[i] = v[i];
+	};
+	int degre() const { return n; };
 
-		Polynome& operator=(const Polynome& p);
-		Polynome operator+(const Polynome& p);
-		Polynome operator-(const Polynome& p);
-		Polynome operator*(const Polynome& p);
-		Polynome operator/(const Polynome& p);
-		Polynome operator%(const Polynome& p);
-		Polynome operator^(int n);
-		Polynome operator-();
+	Polynome operator[](int i)
+	{
+		if (i >= 0 && i <= n)
+		{
+			return coeff[i];
+		}
+		else
+		{
+			throw "Index out of range";
+		}
+	};
 
-		Polynome& operator+=(const Polynome& p);
-		Polynome& operator-=(const Polynome& p);
-		Polynome& operator*=(const Polynome& p);
-		Polynome& operator/=(const Polynome& p);
-		Polynome& operator%=(const Polynome& p);
-		Polynome& operator^=(int n);
+	std::ostream affiche_monome(ostream &os, const T a, int i)
+	{
+		if (a != 0)
+		{
+			return os << a << "x^" << i;
+		}
+		else
+		{
+			return;
+		}
+	};
 
-		bool operator==(const Polynome& p);
-		bool operator!=(const Polynome& p);
-
-		T operator()(T x);
-		T operator[](int i);
-
-		int degree();
-		Polynome derivative();
-		Polynome integral();
-		Polynome gcd(const Polynome& p);
-		Polynome lcm(const Polynome& p);
-		Polynome gcdex(const Polynome& p, Polynome& u, Polynome& v);
-		Polynome gcdex(const Polynome& p, Polynome& u, Polynome& v, Polynome& w);
-		Polynome gcdex(const Polynome& p, Polynome& u, Polynome& v, Polynome& w, Polynome& x);
-		Polynome gcdex(const Polynome& p, Polynome& u, Polynome& v, Polynome& w, Polynome& x, Polynome& y);
-		Polynome gcdex(const Polynome& p, Polynome& u, Polynome& v, Polynome& w, Polynome& x, Polynome& y, Polynome& z);
-		Polyn
+	friend std::ostream &operator<< <T>(ostream &os, const Polynome<T> &p)
+	{
+		for (int i = 0; i < p.n; i++)
+		{
+			p.affiche_monome(os, coeff[i], i);
+		}
+		return os;
+	};
 };
