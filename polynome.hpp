@@ -6,7 +6,7 @@ template <typename T>
 class Polynome;
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const Polynome<T> &p);
+std::ostream &operator<<(std::ostream &, const Polynome<T> &);
 
 template <typename T>
 bool is_zero(T a)
@@ -66,18 +66,20 @@ public:
 		{
 			return os << a << "x^" << i;
 		}
-		else
-		{
-			return os;
-		}
 	};
 
-	friend std::ostream &operator<< <T>(std::ostream &os, const Polynome<T> &p)
-	{
-		for (int i = 0; i < p.n; i++)
-		{
-			p.affiche_monome(os, coeff[i], i);
-		}
-		return os;
-	};
+	friend std::ostream &operator<< <T>(std::ostream &os, const Polynome<T> &p);
 };
+
+template <typename T>
+std::ostream& operator<<( std::ostream& o, const Polynome<T>& p ) {
+	for (int i = 0; i < p.n; i++) {
+		if (p.coeff[i] != 0) {
+			o << p.coeff[i] << "x^" << i;
+			if (i != p.n - 1) {
+				o << " + ";
+			}
+		}
+	}
+	return o;
+}

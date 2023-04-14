@@ -21,7 +21,7 @@ int main()
     std::complex<int> one = 1;
     std::cout << "Is one one : " << is_one(one) << std::endl;
     std::cout << is_zero(a) << std::endl;
-    affiche_monome(std::cout, a, 3);
+    //affiche_monome(std::cout, a, 3);
     std::cout << std::endl;
     std::cout << "p1 : " << p1 << std::endl;
 
